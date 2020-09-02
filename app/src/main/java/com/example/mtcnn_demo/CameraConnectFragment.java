@@ -4,8 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -31,6 +29,11 @@ import android.media.ImageReader;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
@@ -41,10 +44,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -320,6 +319,20 @@ public class CameraConnectFragment extends Fragment
                 case STATE_WAITING_LOCK: {
                     captureStillPicture();
                     Integer afState = result.get(CaptureResult.CONTROL_AF_STATE);
+//                    if (afState == null) {
+//                        captureStillPicture();
+//                    } else if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState ||
+//                            CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState) {
+//                        // CONTROL_AE_STATE can be null on some devices
+//                        Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
+//                        if (aeState == null ||
+//                                aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED) {
+//                            mState = STATE_PICTURE_TAKEN;
+//                            captureStillPicture();
+//                        } else {
+//                            runPrecaptureSequence();
+//                        }
+//                    }
                     break;
                 }
                 case STATE_WAITING_PRECAPTURE: {
@@ -630,6 +643,11 @@ public class CameraConnectFragment extends Fragment
         }
     }
 
+    /**
+     * Opens the camera specified by {@link CameraConnectFragment#mCameraId}.
+     */
+
+
     private void openCamera(int width, int height) {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -706,8 +724,8 @@ public class CameraConnectFragment extends Fragment
                             textView.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    textView.setText(""+boxes.size());
-                                    //textView.append(" " + boxes.size());
+                                    //textView.setText(""+boxes.size());
+                                    textView.append(" " + boxes.size());
                                 }
                             });
 //                            textView.append(" " + boxes.size());

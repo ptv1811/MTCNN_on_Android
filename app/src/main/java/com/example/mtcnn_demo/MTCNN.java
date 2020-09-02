@@ -337,6 +337,6 @@ public class MTCNN {
         //return
         Log.i(TAG,"[*]Mtcnn Detection Time:"+(System.currentTimeMillis()-t_start));
         lastProcessTime=(System.currentTimeMillis()-t_start);
-        return  boxes;
+        return boxes;
     }
 }

@@ -8,7 +8,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import static android.graphics.Paint.Style.STROKE;
 
