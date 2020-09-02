@@ -173,6 +173,8 @@ public class CameraConnectFragment extends Fragment
     /**
      * {@link CameraDevice.StateCallback} is called when {@link CameraDevice} changes its state.
      */
+
+    private FaceDetectionView faceDetectionView;
     private final CameraDevice.StateCallback mStateCallback = new CameraDevice.StateCallback() {
 
         @Override
@@ -207,7 +209,7 @@ public class CameraConnectFragment extends Fragment
      * An additional thread for running tasks that shouldn't block the UI.
      */
     private HandlerThread mBackgroundThread;
-    private Handler handler;
+    private Handler handler = new Handler();
 
     /**
      * A {@link Handler} for running tasks in the background.
@@ -477,6 +479,8 @@ public class CameraConnectFragment extends Fragment
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         textView = (TextView)view.findViewById(R.id.length);
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
+        faceDetectionView = view.findViewById(R.id.faceDetectionView);
+
     }
 
     @Override
@@ -716,16 +720,32 @@ public class CameraConnectFragment extends Fragment
 
 
                         try {
-                            final Vector<Box> boxes = mtcnn.detectFaces(bm, 40);
+                            final Vector<Box> boxes;
+                            synchronized(this) {
+                                boxes = mtcnn.detectFaces(bm, 40);
+                            }
                             for (int i = 0; i < boxes.size(); i++) {
                                 Utils.drawRect(bm, boxes.get(i).transform2Rect());
                                 Utils.drawPoints(bm, boxes.get(i).landmark);
                             }
+                            if (boxes != null && boxes.size()>0){
+                                handler.postAtFrontOfQueue(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        faceDetectionView.setResults(boxes);
+                                    }
+                                });
+
+                            }
+                            else {
+                                bm.recycle();
+                            }
+
                             textView.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    //textView.setText(""+boxes.size());
-                                    textView.append(" " + boxes.size());
+                                    textView.setText(""+boxes.size());
+                                    //textView.append(" " + boxes.size());
                                 }
                             });
 //                            textView.append(" " + boxes.size());

@@ -8,7 +8,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FaceDetectionView faceDetectionView = new FaceDetectionView(this);
+        //FaceDetectionView faceDetectionView = new FaceDetectionView(this);
         if (null == savedInstanceState) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, CameraConnectFragment.newInstance())

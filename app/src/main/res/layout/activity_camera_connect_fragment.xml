@@ -17,6 +17,7 @@
 
         <com.example.mtcnn_demo.FaceDetectionView
             android:layout_width="match_parent"
+            android:id="@+id/faceDetectionView"
             android:layout_height="match_parent" />
     </FrameLayout>
 
