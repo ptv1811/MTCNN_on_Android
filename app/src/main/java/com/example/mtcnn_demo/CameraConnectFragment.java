@@ -709,16 +709,6 @@ public class CameraConnectFragment extends Fragment
                     if (bm != null) {
                         Log.d(TAG, "size" + bm.getHeight());
 
-                        int maxHeight = 150;
-                        int maxWidth = 150;
-                        float scale = Math.min(((float) maxHeight / bm.getWidth()), ((float) maxWidth / bm.getHeight()));
-
-                        Matrix matrix = new Matrix();
-                        matrix.postScale(scale, scale);
-
-                        bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
-
-
                         try {
                             final Vector<Box> boxes;
                             synchronized(this) {
@@ -739,12 +729,13 @@ public class CameraConnectFragment extends Fragment
                             }
                             else {
                                 bm.recycle();
+                                faceDetectionView.deleteBox();
                             }
 
                             textView.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    textView.setText(""+boxes.size());
+                                    textView.setText("Number of faces: "+boxes.size());
                                     //textView.append(" " + boxes.size());
                                 }
                             });

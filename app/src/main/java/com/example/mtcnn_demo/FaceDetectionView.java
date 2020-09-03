@@ -48,40 +48,9 @@ public class FaceDetectionView extends SurfaceView implements SurfaceHolder.Call
     }
 
 
-    /*@Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int w = View.MeasureSpec.getSize(widthMeasureSpec);
-        int h = View.MeasureSpec.getSize(heightMeasureSpec);
-
-        int size = Math.min(w, h);
-        setMeasuredDimension(size, size);
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(Color.rgb(0, 0, 0));
-        paint.setStrokeWidth(10);
-        paint.setStyle(Paint.Style.STROKE);
-        canvas.drawRect(100, 100, 200, 200, paint);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        mCenterX = w / 2f;
-        mCenterY = h / 2f;
-        mRadius = Math.min(w, h) / 2f;
-    }*/
 
     private void initPaints(@Nullable AttributeSet set) {
-        /*mCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mCirclePaint.setStyle(Paint.Style.FILL);
-        mCirclePaint.setColor(Color.YELLOW);
-        mEyeAndMouthPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mEyeAndMouthPaint.setStyle(STROKE);
-        mEyeAndMouthPaint.setStrokeWidth(16 * getResources().getDisplayMetrics().density);
-        mEyeAndMouthPaint.setStrokeCap(Paint.Cap.ROUND);
-        mEyeAndMouthPaint.setColor(Color.BLACK);*/
+
 
         mSurfaceHolder = getHolder();
         mSurfaceHolder.addCallback(this);
@@ -91,11 +60,27 @@ public class FaceDetectionView extends SurfaceView implements SurfaceHolder.Call
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setColor(Color.RED);
-        mPaint.setStrokeWidth(5f);
+        mPaint.setStrokeWidth(10f);
         mPaint.setStyle(STROKE);
 
 
     }
+
+    public void deleteBox(){
+        Canvas canvas = mSurfaceHolder.lockCanvas();
+        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+
+        Surface surface = mSurfaceHolder.getSurface();
+        if (surface != null && surface.isValid()){
+            try {
+                mSurfaceHolder.unlockCanvasAndPost(canvas);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void setResults(Vector<Box> boxes){
 
         if (!mIsCreated) {
@@ -109,7 +94,13 @@ public class FaceDetectionView extends SurfaceView implements SurfaceHolder.Call
             for (int i = 0; i < size;++i){
                 Rect rect =boxes.get(i).transform2Rect();
                 canvas.drawRect(rect, mPaint);
+                for (int j =0 ; j < 5; ++j){
+                    int x=  boxes.get(i).landmark[j].x;
+                    int y = boxes.get(i).landmark[j].y;
+                    canvas.drawRect(new Rect(x-1, y-1, x+1, y+1),mPaint);
+                }
             }
+
 
         }catch (Exception e){
             e.printStackTrace();
