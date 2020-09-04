@@ -1,61 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".CameraConnectFragment">
+    <ImageView
+        android:id="@+id/camera_switch_View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_baseline_switch_camera_24"/>
 
     <com.example.mtcnn_demo.AutoFitTextureView
-        android:id="@+id/texture"
+        android:id="@+id/textureView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
 
-    <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.example.mtcnn_demo.FaceDetectionView
-            android:layout_width="match_parent"
-            android:id="@+id/faceDetectionView"
-            android:layout_height="match_parent" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/control"
-        android:layout_width="match_parent"
-        android:layout_height="112dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:background="#FFFFFF">
-
-        <!--<Button-->
-        <!--android:id="@+id/picture"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:text="@string/picture" />-->
-
-        <!--<ImageButton-->
-        <!--android:id="@+id/info"-->
-        <!--android:contentDescription="@string/description_info"-->
-        <!--style="@android:style/Widget.Material.Light.Button.Borderless"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center_vertical|right"-->
-        <!--android:padding="20dp"-->
-        <!--android:src="@drawable/ic_action_info" />-->
-
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/length"
+    <com.example.mtcnn_demo.FaceDetectionView
+        android:id="@+id/FaceDetectionView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="11dp"
-        android:layout_marginBottom="51dp"
-        android:text="@string/length" />
-
+        android:layout_alignLeft="@+id/textureView"
+        android:layout_alignTop="@+id/textureView"
+        android:layout_alignRight="@+id/textureView"
+        android:layout_alignBottom="@+id/textureView"/>
 </RelativeLayout>
